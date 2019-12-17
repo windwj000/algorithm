@@ -1,2 +1,1 @@
-# algorithm
-剑指 Offer + LeetCode Top-100-Liked-Questions + CyC2018 LeetCode 题解 
+# LeetCode 上显示 245 Solved。--_____-
