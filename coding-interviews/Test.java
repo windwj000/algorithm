@@ -3,18 +3,22 @@ public class Test {
         if (str == null || pattern == null)
             return false;
         boolean[][] dp = new boolean[str.length + 1][pattern.length + 1];
-        dp[str.length][pattern.length] = true;
-        for (int i = str.length; i >= 0; i--) {
-            for (int j = pattern.length - 1; j >= 0; j--) {
-                if (j < pattern.length - 1 && pattern[j + 1] == '*') {
-                    if (i < str.length && (str[i] == pattern[j] || pattern[j] == '.'))
-                        dp[i][j] = dp[i][j + 2] || dp[i + 1][j];
+        dp[0][0] = true;
+        for (int i = 1; i < pattern.length; i++) {
+            if (pattern[i] == '*' && dp[0][i - 1])
+                dp[0][i + 1] = true;
+        }
+        for (int i = 0; i < str.length; i++) {
+            for (int j = 0; j < pattern.length; j++) {
+                if (pattern[j] == '*') {
+                    if (pattern[j - 1] == '.' || str[i] == pattern[j - 1])
+                        dp[i + 1][j + 1] = dp[i][j + 1] || dp[i + 1][j - 1];
                     else
-                        dp[i][j] = dp[i][j + 2];
-                } else if (i < str.length && (str[i] == pattern[j] || pattern[j] == '.'))
-                    dp[i][j] = dp[i + 1][j + 1];
+                        dp[i + 1][j + 1] = dp[i + 1][j - 1];
+                } else if (pattern[j] == '.' || str[i] == pattern[j])
+                    dp[i + 1][j + 1] = dp[i][j];
             }
         }
-        return dp[0][0];
+        return dp[str.length][pattern.length];
     }
 }
