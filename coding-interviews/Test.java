@@ -1,15 +1,20 @@
 public class Test {
-    public ListNode deleteDuplication(ListNode pHead) {
-        if (pHead == null || pHead.next == null)
-            return pHead;
-        ListNode next = pHead.next;
-        if (pHead.val == next.val) {
-            while (next != null && next.val == pHead.val)
-                next = next.next;
-            return deleteDuplication(next);
-        } else {
-            pHead.next = deleteDuplication(pHead.next);
-            return pHead;
+    public boolean match(char[] str, char[] pattern) {
+        if (str == null || pattern == null)
+            return false;
+        boolean[][] dp = new boolean[str.length + 1][pattern.length + 1];
+        dp[str.length][pattern.length] = true;
+        for (int i = str.length; i >= 0; i--) {
+            for (int j = pattern.length - 1; j >= 0; j--) {
+                if (j < pattern.length - 1 && pattern[j + 1] == '*') {
+                    if (i < str.length && (str[i] == pattern[j] || pattern[j] == '.'))
+                        dp[i][j] = dp[i][j + 2] || dp[i + 1][j];
+                    else
+                        dp[i][j] = dp[i][j + 2];
+                } else if (i < str.length && (str[i] == pattern[j] || pattern[j] == '.'))
+                    dp[i][j] = dp[i + 1][j + 1];
+            }
         }
+        return dp[0][0];
     }
 }
