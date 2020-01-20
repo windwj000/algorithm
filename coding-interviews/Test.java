@@ -1,21 +1,10 @@
 public class Test {
-    public ListNode EntryNodeOfLoop(ListNode pHead) {
-        if (pHead == null || pHead.next == null)
-            return null;
-        ListNode fast = pHead;
-        ListNode slow = pHead;
-        while (fast != null && fast.next != null) {
-            fast = fast.next.next;
-            slow = slow.next;
-            if (fast == slow) {
-                fast = pHead;
-                while (fast != slow) {
-                    fast = fast.next;
-                    slow = slow.next;
-                }
-                return fast;
-            }
-        }
-        return null;
+    public ListNode ReverseList(ListNode head) {
+        if (head == null || head.next == null)
+            return head;
+        ListNode tmp = ReverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return tmp;
     }
 }
