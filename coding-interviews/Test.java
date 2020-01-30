@@ -1,18 +1,23 @@
-public class Test {
-    public boolean HasSubtree(TreeNode root1, TreeNode root2) {
-        if (root1 == null || root2 == null)
-            return false;
-        return f(root1, root2) || HasSubtree(root1.left, root2) || HasSubtree(root1.right, root2);
-    }
+import javax.swing.tree.TreeNode;
+import java.util.Stack;
 
-    private boolean f(TreeNode root1, TreeNode root2) {
-        if (root2 == null)
-            return true;
-        if (root1 == null)
-            return false;
-        if (root1.val == root2.val) {
-            return f(root1.left, root2.left) && f(root1.right, root2.right);
+public class Test {
+    public void Mirror(TreeNode root) {
+        if (root == null)
+            return;
+        Stack<TreeNode> s = new Stack<>();
+        s.push(root);
+        while (!s.isEmpty()) {
+            TreeNode p = s.pop();
+            if (root.left != null || root.right != null) {
+                TreeNode tmp = p.left;
+                p.left = p.right;
+                p.right = tmp;
+            }
+            if (p.left != null)
+                s.push(p.left);
+            if (p.right != null)
+                s.push(p.right);
         }
-        return false;
     }
 }
