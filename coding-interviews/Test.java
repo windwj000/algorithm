@@ -1,23 +1,27 @@
 import javax.swing.tree.TreeNode;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class Test {
-    public void Mirror(TreeNode root) {
-        if (root == null)
-            return;
-        Stack<TreeNode> s = new Stack<>();
-        s.push(root);
-        while (!s.isEmpty()) {
-            TreeNode p = s.pop();
-            if (root.left != null || root.right != null) {
-                TreeNode tmp = p.left;
-                p.left = p.right;
-                p.right = tmp;
-            }
-            if (p.left != null)
-                s.push(p.left);
-            if (p.right != null)
-                s.push(p.right);
+    public boolean isSymmetrical(TreeNode pRoot) {
+        if (pRoot == null)
+            return true;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(pRoot.left);
+        q.offer(pRoot.right);
+        while (!q.isEmpty()) {
+            TreeNode left = q.poll();
+            TreeNode right = q.poll();
+            if (left == null && right == null)
+                continue;
+            if (left == null || right == null || left.val != right.val)
+                return false;
+            q.offer(left.left);
+            q.offer(right.right);
+            q.offer(left.right);
+            q.offer(right.left);
         }
+        return true;
     }
 }
