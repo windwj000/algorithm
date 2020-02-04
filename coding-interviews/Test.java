@@ -5,36 +5,46 @@ import java.util.Queue;
 import java.util.Stack;
 
 public class Test {
-    public ArrayList<Integer> printMatrix(int[][] matrix) {
-        ArrayList<Integer> res = new ArrayList<>();
-        if (matrix == null || matrix.length == 0 || matrix[0].length == 0)
-            return res;
-        int left = 0;
-        int right = matrix[0].length - 1;
-        int up = 0;
-        int down = matrix.length - 1;
-        while (left <= right && up <= down) {
-            for (int i = left; i <= right; i++) {
-                res.add(matrix[up][i]);
-            }
-            for (int i = up + 1; i <= down; i++) {
-                res.add(matrix[i][right]);
-            }
-            if (up != down) {
-                for (int i = right - 1; i >= left; i--) {
-                    res.add(matrix[down][i]);
-                }
-            }
-            if (left != right) {
-                for (int i = down - 1; i >= up + 1; i--) {
-                    res.add(matrix[i][left]);
-                }
-            }
-            left++;
-            up++;
-            right--;
-            down--;
+    private class Node {
+        int val;
+        int min;
+        Node next;
+
+        private Node(int val, int min) {
+            this(val, min, null);
         }
-        return res;
+
+        private Node(int val, int min, Node next) {
+            this.val = val;
+            this.min = min;
+            this.next = next;
+        }
+    }
+
+    private Node head;
+
+    /**
+     * initialize your data structure here.
+     */
+    public MinStack() {
+    }
+
+    public void push(int x) {
+        if (head == null) {
+            head = new Node(x, x);
+        } else
+            head = new Node(x, Math.min(x, head.min), head);
+    }
+
+    public void pop() {
+        head = head.next;
+    }
+
+    public int top() {
+        return head.val;
+    }
+
+    public int getMin() {
+        return head.min;
     }
 }
