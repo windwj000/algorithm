@@ -11,7 +11,7 @@ public class Test {
     private void f(TreeNode node, ArrayList<ArrayList<Integer>> res, int level) {
         if (node == null)
             return;
-        if (res.size() <= level) {
+        if (level == res.size()) {
             ArrayList<Integer> newLevel = new ArrayList<>();
             res.add(newLevel);
         }
