@@ -2,23 +2,28 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public boolean VerifySquenceOfBST(int[] sequence) {
-        if (sequence == null || sequence.length == 0)
-            return false;
-        int len = sequence.length;
-        int rootVal = sequence[len - 1];
-        int idx = 0;
-        while (len-- > 0) {
-            while (sequence[idx] < rootVal) {
-                idx++;
+    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root, int target) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        ArrayList<Integer> list = new ArrayList<>();
+        Stack<TreeNode> s = new Stack<>();
+        TreeNode p = root;
+        while (!s.isEmpty() || p != null) {
+            while (p != null) {
+                s.push(p);
+                list.add(p.val);
+                target -= p.val;
+                p = p.left != null ? p.left : p.right;
             }
-            while (sequence[idx] > rootVal) {
-                idx++;
-            }
-            if (idx < len)
-                return false;
-            idx = 0;
+            p = s.pop();
+            if (target == 0 && p.left == null && p.right == null)
+                res.add(new ArrayList<>(list));
+            list.remove(list.size() - 1);
+            target += p.val;
+            if (!s.isEmpty() && s.peek().left == p)
+                p = s.peek().right;
+            else
+                p = null;
         }
-        return true;
+        return res;
     }
 }
