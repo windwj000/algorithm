@@ -2,28 +2,30 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root, int target) {
-        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
-        ArrayList<Integer> list = new ArrayList<>();
-        Stack<TreeNode> s = new Stack<>();
-        TreeNode p = root;
-        while (!s.isEmpty() || p != null) {
-            while (p != null) {
-                s.push(p);
-                list.add(p.val);
-                target -= p.val;
-                p = p.left != null ? p.left : p.right;
-            }
-            p = s.pop();
-            if (target == 0 && p.left == null && p.right == null)
-                res.add(new ArrayList<>(list));
-            list.remove(list.size() - 1);
-            target += p.val;
-            if (!s.isEmpty() && s.peek().left == p)
-                p = s.peek().right;
-            else
-                p = null;
+    public RandomListNode Clone(RandomListNode pHead) {
+        if (pHead == null)
+            return null;
+        RandomListNode cur = pHead;
+        while (cur != null) {
+            RandomListNode clone = new RandomListNode(cur.label);
+            clone.next = cur.next;
+            cur.next = clone;
+            cur = clone.next;
         }
-        return res;
+        cur = pHead;
+        while (cur != null) {
+            RandomListNode clone = cur.next;
+            if (cur.random != null)
+                clone.random = cur.random.next;
+            cur = clone.next;
+        }
+        cur = pHead;
+        RandomListNode cloneHead = pHead.next;
+        while (cur.next != null) {
+            RandomListNode next = cur.next;
+            cur.next = next.next;
+            cur = next;
+        }
+        return cloneHead;
     }
 }
