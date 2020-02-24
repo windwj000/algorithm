@@ -2,15 +2,15 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public int MoreThanHalfNum_Solution(int[] array) {
-        if (array == null || array.length == 0)
-            return 0;
-        HashMap<Integer, Integer> m = new HashMap<>();
-        for (int n : array) {
-            m.put(n, m.getOrDefault(n, 0) + 1);
-            if (m.get(n) > array.length / 2)
-                return n;
+    public ArrayList<Integer> GetLeastNumbers_Solution(int[] input, int k) {
+        if (input == null || input.length == 0 || k <= 0 || k > input.length)
+            return new ArrayList<>();
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((o1, o2) -> o2 - o1);
+        for (int n : input) {
+            maxHeap.add(n);
+            if (maxHeap.size() > k)
+                maxHeap.poll();
         }
-        return 0;
+        return new ArrayList<>(maxHeap);
     }
 }
