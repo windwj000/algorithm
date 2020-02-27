@@ -2,25 +2,21 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    private PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-    private PriorityQueue<Integer> maxHeap = new PriorityQueue<>((o1, o2) -> o2 - o1);
-    private int cnt = 0;
+    private int[] a = new int[128];
+    private StringBuilder sb = new StringBuilder();
 
-    public void Insert(Integer num) {
-        if (cnt % 2 == 0) {
-            maxHeap.offer(num);
-            minHeap.offer(maxHeap.poll());
-        } else {
-            minHeap.offer(num);
-            maxHeap.offer(minHeap.poll());
-        }
-        cnt++;
+    //Insert one char from stringstream
+    public void Insert(char ch) {
+        sb.append(ch);
+        a[ch]++;
     }
 
-    public Double GetMedian() {
-        if (cnt % 2 == 0)
-            return (maxHeap.peek() + minHeap.peek()) / 2.0;
-        else
-            return (double) minHeap.peek();
+    //return the first appearence once char in current stringstream
+    public char FirstAppearingOnce() {
+        for (char c : sb.toString().toCharArray()) {
+            if (a[c] == 1)
+                return c;
+        }
+        return '#';
     }
 }
