@@ -2,21 +2,17 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    private int[] a = new int[128];
-    private StringBuilder sb = new StringBuilder();
-
-    //Insert one char from stringstream
-    public void Insert(char ch) {
-        sb.append(ch);
-        a[ch]++;
-    }
-
-    //return the first appearence once char in current stringstream
-    public char FirstAppearingOnce() {
-        for (char c : sb.toString().toCharArray()) {
-            if (a[c] == 1)
-                return c;
+    public int FindGreatestSumOfSubArray(int[] array) {
+        int len = array.length;
+        if (array == null || len == 0)
+            return 0;
+        int[] dp = new int[len];
+        dp[0] = array[0];
+        int max = array[0];
+        for (int i = 1; i < len; i++) {
+            dp[i] = array[i] + (dp[i - 1] > 0 ? dp[i - 1] : 0);
+            max = Math.max(max, dp[i]);
         }
-        return '#';
+        return max;
     }
 }
