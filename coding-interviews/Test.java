@@ -2,19 +2,19 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public String PrintMinNumber(int[] numbers) {
-        if (numbers == null || numbers.length == 0)
-            return "";
-        int len = numbers.length;
-        String[] sa = new String[len];
-        for (int i = 0; i < len; i++) {
-            sa[i] = numbers[i] + "";
+    public int numDecodings(String s) {
+        int len = s.length();
+        if (s == null || len == 0)
+            return 0;
+        int pp = 0;
+        int p = 1;
+        for (int i = len - 1; i >= 0; i--) {
+            int cur = s.charAt(i) == '0' ? 0 : p;
+            if (i < len - 1 && (s.charAt(i) == '1' || (s.charAt(i) == '2' && s.charAt(i + 1) < '7')))
+                cur += pp;
+            pp = p;
+            p = cur;
         }
-        Arrays.sort(sa, (s1, s2) -> (s1 + s2).compareTo(s2 + s1));
-        StringBuilder res = new StringBuilder();
-        for (String s : sa) {
-            res.append(s);
-        }
-        return res.toString();
+        return p;
     }
 }
