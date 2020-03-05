@@ -2,19 +2,17 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public int numDecodings(String s) {
-        int len = s.length();
-        if (s == null || len == 0)
+    public int getMost(int[][] board) {
+        if (board == null || board.length == 0 || board[0].length == 0)
             return 0;
-        int pp = 0;
-        int p = 1;
-        for (int i = len - 1; i >= 0; i--) {
-            int cur = s.charAt(i) == '0' ? 0 : p;
-            if (i < len - 1 && (s.charAt(i) == '1' || (s.charAt(i) == '2' && s.charAt(i + 1) < '7')))
-                cur += pp;
-            pp = p;
-            p = cur;
+        int len = board[0].length;
+        int[] dp = new int[len];
+        for (int[] b : board) {
+            dp[0] += b[0];
+            for (int i = 1; i < len; i++) {
+                dp[i] = Math.max(dp[i], dp[i - 1]) + b[i];
+            }
         }
-        return p;
+        return dp[len - 1];
     }
 }
