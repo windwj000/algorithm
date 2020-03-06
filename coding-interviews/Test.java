@@ -2,17 +2,20 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public int getMost(int[][] board) {
-        if (board == null || board.length == 0 || board[0].length == 0)
-            return 0;
-        int len = board[0].length;
-        int[] dp = new int[len];
-        for (int[] b : board) {
-            dp[0] += b[0];
-            for (int i = 1; i < len; i++) {
-                dp[i] = Math.max(dp[i], dp[i - 1]) + b[i];
-            }
+    public int GetUglyNumber_Solution(int index) {
+        if (index < 7)
+            return index;
+        int[] dp = new int[index];
+        dp[0] = 1;
+        for (int i = 1, two = 0, three = 0, five = 0; i < index; i++) {
+            dp[i] = Math.min(dp[two] * 2, Math.min(dp[three] * 3, dp[five] * 5));
+            if (dp[i] == dp[two] * 2)
+                two++;
+            if (dp[i] == dp[three] * 3)
+                three++;
+            if (dp[i] == dp[five] * 5)
+                five++;
         }
-        return dp[len - 1];
+        return dp[index - 1];
     }
 }
