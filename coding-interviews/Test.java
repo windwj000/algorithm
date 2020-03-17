@@ -2,44 +2,30 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    private int cnt = 0;
-
-    public int InversePairs(int[] array) {
-        mergeSort(array, 0, array.length - 1);
-        return cnt;
-    }
-
-    private void mergeSort(int[] array, int low, int high) {
-        if (low < high) {
-            int mid = low + (high - low) / 2;
-            mergeSort(array, low, mid);
-            mergeSort(array, mid + 1, high);
-            merge(array, low, mid, high);
+    public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
+        if (pHead1 == null || pHead2 == null)
+            return null;
+        ListNode last = pHead1;
+        while (last.next != null) {
+            last = last.next;
         }
-    }
-
-    private void merge(int[] array, int low, int mid, int high) {
-        int i = low;
-        int j = mid + 1;
-        int k = 0;
-        int[] tmp = new int[high - low + 1];
-        while (i <= mid && j <= high) {
-            if (array[i] <= array[j])
-                tmp[k++] = array[i++];
-            else {
-                tmp[k++] = array[j++];
-                cnt += mid - i + 1;
-                cnt %= 1000000007;
+        last.next = pHead2;
+        ListNode slow = pHead1;
+        ListNode fast = pHead1;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                fast = pHead1;
+                while (slow != fast) {
+                    slow = slow.next;
+                    fast = fast.next;
+                }
+                last.next = null;
+                return slow;
             }
         }
-        while (i <= mid) {
-            tmp[k++] = array[i++];
-        }
-        while (j <= high) {
-            tmp[k++] = array[j++];
-        }
-        for (k = 0; k < tmp.length; k++) {
-            array[k + low] = tmp[k];
-        }
+        last.next = null;
+        return null;
     }
 }
