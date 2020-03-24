@@ -2,62 +2,27 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    class Node {
-        int val;
-        int cnt;
-        Node left;
-        Node right;
-
-        Node(int val) {
-            this.val = val;
-            this.cnt = 1;
-        }
-    }
-
-    public TreeNode KthNode(TreeNode pRoot, int k) {
-        if (pRoot == null)
-            return null;
-        Node node = build(pRoot);
-        int val = kthSmallest(node, k);
-        return search(pRoot, val);
-    }
-
-    private Node build(TreeNode root) {
+    public int TreeDepth(TreeNode root) {
         if (root == null)
-            return null;
-        Node node = new Node(root.val);
-        node.left = build(root.left);
-        node.right = build(root.right);
-        if (node.left != null)
-            node.cnt += node.left.cnt;
-        if (node.right != null)
-            node.cnt += node.right.cnt;
-        return node;
-    }
-
-    private int kthSmallest(Node node, int k) {
-        if (k <= 0 || k > node.cnt)
-            return -1;
-        if (node.left != null) {
-            if (node.left.cnt > k - 1)
-                return kthSmallest(node.left, k);
-            if (node.left.cnt == k - 1)
-                return node.val;
-            return kthSmallest(node.right, k - 1 - node.left.cnt);
-        } else {
-            if (k == 1)
-                return node.val;
-            return kthSmallest(node.right, k - 1);
+            return 0;
+        Stack<TreeNode> s1 = new Stack<>();
+        Stack<Integer> s2 = new Stack<>();
+        s1.push(root);
+        s2.push(1);
+        int depth = 0;
+        while (!s1.isEmpty()) {
+            TreeNode node = s1.pop();
+            int tmp = s2.pop();
+            depth = Math.max(depth, tmp);
+            if (node.left != null) {
+                s1.push(node.left);
+                s2.push(tmp + 1);
+            }
+            if (node.right != null) {
+                s1.push(node.right);
+                s2.push(tmp + 1);
+            }
         }
-    }
-
-    private TreeNode search(TreeNode root, int val) {
-        if (root == null || val == -1)
-            return null;
-        if (root.val == val)
-            return root;
-        if (root.val > val)
-            return search(root.left, val);
-        return search(root.right, val);
+        return depth;
     }
 }
