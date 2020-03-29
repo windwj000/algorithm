@@ -2,27 +2,31 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public int TreeDepth(TreeNode root) {
+    public boolean IsBalanced_Solution(TreeNode root) {
         if (root == null)
-            return 0;
-        Stack<TreeNode> s1 = new Stack<>();
-        Stack<Integer> s2 = new Stack<>();
-        s1.push(root);
-        s2.push(1);
-        int depth = 0;
-        while (!s1.isEmpty()) {
-            TreeNode node = s1.pop();
-            int tmp = s2.pop();
-            depth = Math.max(depth, tmp);
-            if (node.left != null) {
-                s1.push(node.left);
-                s2.push(tmp + 1);
-            }
-            if (node.right != null) {
-                s1.push(node.right);
-                s2.push(tmp + 1);
+            return true;
+        Stack<TreeNode> s = new Stack<>();
+        s.push(root);
+        HashMap<TreeNode, Integer> map = new HashMap<>();
+        while (!s.isEmpty()) {
+            TreeNode node = s.pop();
+            if ((node.left == null || node.left != null && map.containsKey(node.left)) &&
+                    (node.right == null || node.right != null && map.containsKey(node.right))) {
+                int left = (node.left == null) ? 0 : map.get(node.left);
+                int right = (node.right == null) ? 0 : map.get(node.right);
+                if (Math.abs(left - right) > 1)
+                    return false;
+                map.put(node, 1 + Math.max(left, right));
+            } else {
+                if (node.left != null && !map.containsKey(node.left)) {
+                    s.push(node);
+                    s.push(node.left);
+                } else {
+                    s.push(node);
+                    s.push(node.right);
+                }
             }
         }
-        return depth;
+        return true;
     }
 }
