@@ -2,31 +2,18 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public boolean IsBalanced_Solution(TreeNode root) {
-        if (root == null)
-            return true;
-        Stack<TreeNode> s = new Stack<>();
-        s.push(root);
-        HashMap<TreeNode, Integer> map = new HashMap<>();
-        while (!s.isEmpty()) {
-            TreeNode node = s.pop();
-            if ((node.left == null || node.left != null && map.containsKey(node.left)) &&
-                    (node.right == null || node.right != null && map.containsKey(node.right))) {
-                int left = (node.left == null) ? 0 : map.get(node.left);
-                int right = (node.right == null) ? 0 : map.get(node.right);
-                if (Math.abs(left - right) > 1)
-                    return false;
-                map.put(node, 1 + Math.max(left, right));
-            } else {
-                if (node.left != null && !map.containsKey(node.left)) {
-                    s.push(node);
-                    s.push(node.left);
-                } else {
-                    s.push(node);
-                    s.push(node.right);
-                }
-            }
+    public int NumberOf1Between1AndN_Solution(int n) {
+        int cnt = 0;
+        for (int i = 1; i <= n; i *= 10) {
+            int a = n / i;
+            int b = n % i;
+            if (a % 10 == 0)
+                cnt += a / 10 * i;
+            else if (a % 10 == 1)
+                cnt += a / 10 * i + b + 1;
+            else
+                cnt += (a / 10 + 1) * i;
         }
-        return true;
+        return cnt;
     }
 }
