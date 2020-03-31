@@ -2,18 +2,17 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public int NumberOf1Between1AndN_Solution(int n) {
-        int cnt = 0;
-        for (int i = 1; i <= n; i *= 10) {
-            int a = n / i;
-            int b = n % i;
-            if (a % 10 == 0)
-                cnt += a / 10 * i;
-            else if (a % 10 == 1)
-                cnt += a / 10 * i + b + 1;
-            else
-                cnt += (a / 10 + 1) * i;
+    public void FindNumsAppearOnce(int[] array, int num1[], int num2[]) {
+        int diff = 0;
+        for (int a : array) {
+            diff ^= a;
         }
-        return cnt;
+        diff &= -diff;
+        for (int a : array) {
+            if ((diff & a) == 0)
+                num1[0] ^= a;
+            else
+                num2[0] ^= a;
+        }
     }
 }
