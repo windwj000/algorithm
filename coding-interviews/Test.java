@@ -2,17 +2,17 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public ArrayList<Integer> FindNumbersWithSum(int[] array, int sum) {
-        int low = 0;
-        int high = array.length - 1;
-        while (low < high) {
-            if (array[low] + array[high] == sum)
-                return new ArrayList<>(Arrays.asList(array[low], array[high]));
-            if (array[low] + array[high] < sum)
-                low++;
-            else
-                high--;
+    public ArrayList<ArrayList<Integer>> FindContinuousSequence(int sum) {
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        for (int i = (int) Math.sqrt(2 * sum); i >= 2; i--) {
+            if ((i & 1) == 1 && sum % i == 0 || (sum % i) * 2 == i) {
+                ArrayList<Integer> list = new ArrayList<>();
+                for (int j = 0, k = (sum / i) - (i - 1) / 2; j < i; j++, k++) {
+                    list.add(k);
+                }
+                res.add(list);
+            }
         }
-        return new ArrayList<>();
+        return res;
     }
 }
