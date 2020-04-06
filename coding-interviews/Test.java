@@ -2,17 +2,29 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public ArrayList<ArrayList<Integer>> FindContinuousSequence(int sum) {
-        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
-        for (int i = (int) Math.sqrt(2 * sum); i >= 2; i--) {
-            if ((i & 1) == 1 && sum % i == 0 || (sum % i) * 2 == i) {
-                ArrayList<Integer> list = new ArrayList<>();
-                for (int j = 0, k = (sum / i) - (i - 1) / 2; j < i; j++, k++) {
-                    list.add(k);
-                }
-                res.add(list);
+    public String ReverseSentence(String str) {
+        int len = str.length();
+        char[] c = str.toCharArray();
+        int i = 0;
+        for (int j = 0; j <= len; j++) {
+            if (j == len || str.charAt(j) == ' ') {
+                reverse(c, i, j - 1);
+                i = j + 1;
             }
         }
-        return res;
+        reverse(c, 0, len - 1);
+        return new String(c);
+    }
+
+    private void reverse(char[] c, int i, int j) {
+        while (i < j) {
+            swap(c, i++, j--);
+        }
+    }
+
+    private void swap(char[] c, int i, int j) {
+        char tmp = c[i];
+        c[i] = c[j];
+        c[j] = tmp;
     }
 }
