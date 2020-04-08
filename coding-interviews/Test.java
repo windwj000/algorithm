@@ -2,22 +2,23 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public ArrayList<Integer> maxInWindows(int[] num, int size) {
-        ArrayList<Integer> res = new ArrayList<>();
-        int len = num.length;
-        if (num == null || len == 0 || size <= 0 || size > len)
-            return res;
-        LinkedList<Integer> deque = new LinkedList<>();
-        for (int i = 0; i < num.length; i++) {
-            int begin = i - size + 1;
-            if (!deque.isEmpty() && begin > deque.peekFirst())
-                deque.pollFirst();
-            while (!deque.isEmpty() && num[i] >= num[deque.peekLast()]) {
-                deque.pollLast();
+    public double[] twoSum(int n) {
+        int[] dp = new int[6 * n + 1];
+        for (int i = 1; i <= 6; i++) {
+            dp[i] = 1;
+        }
+        for (int i = 2; i <= n; i++) {
+            for (int j = 6 * i; j >= i; j--) {
+                dp[j] = 0;
+                for (int k = 1; k <= 6 && j - k >= i - 1; k++) {
+                    dp[j] += dp[j - k];
+                }
             }
-            deque.offer(i);
-            if (begin >= 0)
-                res.add(num[deque.peekFirst()]);
+        }
+        double total = Math.pow(6, n);
+        double[] res = new double[5 * n + 1];
+        for (int i = n; i <= 6 * n; i++) {
+            res[i - n] = dp[i] / total;
         }
         return res;
     }
