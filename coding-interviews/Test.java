@@ -2,24 +2,18 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public boolean isContinuous(int[] numbers) {
-        int len = numbers.length;
-        if (numbers == null || len == 0 || len != 5)
-            return false;
-        int max = -1;
-        int min = 14;
-        int flag = 0;
-        for (int n : numbers) {
-            if (n == 0)
-                continue;
-            if (((flag >> n) & 1) == 1)
-                return false;
-            flag |= (1 << n);
-            if (n > max)
-                max = n;
-            if (n < min)
-                min = n;
+    public int maxProfit(int[] prices) {
+        int len = prices.length;
+        if (prices == null || len < 2)
+            return 0;
+        int min = prices[0];
+        int max = 0;
+        for (int i = 1; i < len; i++) {
+            if (prices[i] < prices[i - 1])
+                min = Math.min(min, prices[i]);
+            else
+                max = Math.max(max, prices[i] - min);
         }
-        return max - min < 5;
+        return max;
     }
 }
