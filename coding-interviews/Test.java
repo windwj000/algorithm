@@ -5,29 +5,21 @@ import java.util.HashSet;
 import java.util.Stack;
 
 public class Test {
-    public TreeNode reConstructBinaryTree(int[] pre, int[] in) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < in.length; i++) {
-            map.put(in[i], i);
-        }
-        Stack<TreeNode> stack = new Stack<>();
-        int val = pre[0];
-        TreeNode root = new TreeNode(val);
-        stack.push(root);
-        for (int i = 1; i < pre.length; i++) {
-            val = pre[i];
-            TreeNode node = new TreeNode(val);
-            if (map.get(val) < map.get(stack.peek().val))
-                stack.peek().left = node;
-            else {
-                TreeNode parent = null;
-                while (!stack.isEmpty() && map.get(val) > map.get(stack.peek().val)) {
-                    parent = stack.pop();
-                }
-                parent.right = node;
+    Stack<Integer> stack1 = new Stack<Integer>();
+    Stack<Integer> stack2 = new Stack<Integer>();
+
+    public void push(int node) {
+        stack1.push(node);
+    }
+
+    public int pop() {
+        if (stack1.isEmpty() && stack2.isEmpty())
+            throw new RuntimeException("Queue is empty!");
+        if (stack2.isEmpty()) {
+            while (!stack1.isEmpty()) {
+                stack2.push(stack1.pop());
             }
-            stack.push(node);
         }
-        return root;
+        return stack2.pop();
     }
 }
