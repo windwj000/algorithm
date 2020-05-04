@@ -5,21 +5,13 @@ import java.util.HashSet;
 import java.util.Stack;
 
 public class Test {
-    Stack<Integer> stack1 = new Stack<Integer>();
-    Stack<Integer> stack2 = new Stack<Integer>();
-
-    public void push(int node) {
-        stack1.push(node);
-    }
-
-    public int pop() {
-        if (stack1.isEmpty() && stack2.isEmpty())
-            throw new RuntimeException("Queue is empty!");
-        if (stack2.isEmpty()) {
-            while (!stack1.isEmpty()) {
-                stack2.push(stack1.pop());
-            }
+    public int JumpFloorII(int target) {
+        int a = 1;
+        int b = 2;
+        for (int i = 2; i <= target; i++) {
+            b = a * 2;
+            a = b;
         }
-        return stack2.pop();
+        return a;
     }
 }
