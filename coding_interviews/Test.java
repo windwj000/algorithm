@@ -5,13 +5,26 @@ import java.util.HashSet;
 import java.util.Stack;
 
 public class Test {
-    public int JumpFloorII(int target) {
-        int a = 1;
-        int b = 2;
-        for (int i = 2; i <= target; i++) {
-            b = a * 2;
-            a = b;
+    public int minNumberInRotateArray(int[] array) {
+        int low = 0;
+        int high = array.length - 1;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (array[low] == array[mid] && array[mid] == array[high])
+                return minNumber(array, low, high);
+            if (array[mid] > array[high])
+                low = mid + 1;
+            else
+                high = mid;
         }
-        return a;
+        return array[low];
+    }
+
+    private int minNumber(int[] array, int low, int high) {
+        for (int i = low; i < high; i++) {
+            if (array[i] > array[i + 1])
+                return array[i + 1];
+        }
+        return array[low];
     }
 }
