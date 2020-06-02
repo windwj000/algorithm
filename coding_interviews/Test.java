@@ -5,14 +5,20 @@ import java.util.HashSet;
 import java.util.Stack;
 
 public class Test {
-    public int cutRope(int target) {
-        int[] dp = new int[target + 1];
-        dp[1] = 1;
-        for (int i = 2; i <= target; i++) {
-            for (int j = 1; j < i; j++) {
-                dp[i] = Math.max(dp[i], Math.max(j * (i - j), dp[j] * (i - j)));
-            }
+    public double Power(double base, int exponent) {
+        if (exponent == 0)
+            return 1;
+        if (exponent == 1)
+            return base;
+        int n = exponent;
+        if (exponent < 0) {
+            if (base == 0)
+                throw new RuntimeException("base can't be 0!");
+            n = -n;
         }
-        return dp[target];
+        double res = Power(base * base, n >> 1);
+        if ((exponent & 1) == 1)
+            res *= base;
+        return exponent > 0 ? res : 1 / res;
     }
 }
