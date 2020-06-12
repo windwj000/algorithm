@@ -5,20 +5,41 @@ import java.util.HashSet;
 import java.util.Stack;
 
 public class Test {
-    public double Power(double base, int exponent) {
-        if (exponent == 0)
-            return 1;
-        if (exponent == 1)
-            return base;
-        int n = exponent;
-        if (exponent < 0) {
-            if (base == 0)
-                throw new RuntimeException("base can't be 0!");
-            n = -n;
+    private int n = 0;
+
+    public int[] printNumbers(int n) {
+        int[] res = new int[(int) Math.pow(10, n) - 1];
+        if (n <= 0) {
+            return res;
         }
-        double res = Power(base * base, n >> 1);
-        if ((exponent & 1) == 1)
-            res *= base;
-        return exponent > 0 ? res : 1 / res;
+        char[] array = new char[n];
+        printNumbers(array, res, 0);
+        return res;
+    }
+
+    private void printNumbers(char[] array, int[] res, int idx) {
+        if (idx == array.length) {
+            print(array, res);
+            return;
+        }
+        for (int i = 0; i < 10; i++) {
+            array[idx] = (char) (i + '0');
+            printNumbers(array, res, idx + 1);
+        }
+    }
+
+    private void print(char[] array, int[] res) {
+        int i = 0;
+        while (i < array.length && array[i] == '0') {
+            i++;
+        }
+        int tmp = 0;
+        while (i < array.length) {
+            tmp = tmp * 10 + array[i++] - '0';
+        }
+        if (tmp == 0) {
+            return;
+        }
+        res[n++] = tmp;
     }
 }
