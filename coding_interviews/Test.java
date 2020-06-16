@@ -5,41 +5,19 @@ import java.util.HashSet;
 import java.util.Stack;
 
 public class Test {
-    private int n = 0;
-
-    public int[] printNumbers(int n) {
-        int[] res = new int[(int) Math.pow(10, n) - 1];
-        if (n <= 0) {
-            return res;
+    public ListNode deleteDuplication(ListNode pHead) {
+        if (pHead == null || pHead.next == null) {
+            return pHead;
         }
-        char[] array = new char[n];
-        printNumbers(array, res, 0);
-        return res;
-    }
-
-    private void printNumbers(char[] array, int[] res, int idx) {
-        if (idx == array.length) {
-            print(array, res);
-            return;
+        ListNode next = pHead.next;
+        if (pHead.val == next.val) {
+            while (next != null && next.val == pHead.val) {
+                next = next.next;
+            }
+            return deleteDuplication(next);
+        } else {
+            pHead.next = deleteDuplication(pHead.next);
+            return pHead;
         }
-        for (int i = 0; i < 10; i++) {
-            array[idx] = (char) (i + '0');
-            printNumbers(array, res, idx + 1);
-        }
-    }
-
-    private void print(char[] array, int[] res) {
-        int i = 0;
-        while (i < array.length && array[i] == '0') {
-            i++;
-        }
-        int tmp = 0;
-        while (i < array.length) {
-            tmp = tmp * 10 + array[i++] - '0';
-        }
-        if (tmp == 0) {
-            return;
-        }
-        res[n++] = tmp;
     }
 }
