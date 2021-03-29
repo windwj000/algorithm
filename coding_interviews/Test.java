@@ -2,30 +2,26 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        Stack<TreeNode> stack = new Stack<>();
-        HashMap<TreeNode, TreeNode> map = new HashMap<>();
-        stack.push(root);
-        map.put(root, null);
-        while (!map.containsKey(p) || !map.containsKey(q)) {  //注意
-            TreeNode node = stack.pop();
-            if (node.left != null) {
-                map.put(node.left, node);
-                stack.push(node.left);
+    public int TreeDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        int depth = 0;
+        while (!q.isEmpty()) {
+            int size = q.size();
+            while (size-- > 0) {
+                TreeNode node = q.poll();
+                if (node.left != null) {
+                    q.offer(node.left);
+                }
+                if (node.right != null) {
+                    q.offer(node.right);
+                }
             }
-            if (node.right != null) {
-                map.put(node.right, node);
-                stack.push(node.right);
-            }
+            depth++;
         }
-        HashSet<TreeNode> set = new HashSet<>();
-        while (p != null) {
-            set.add(p);
-            p = map.get(p);
-        }
-        while (!set.contains(q)) {
-            q = map.get(q);
-        }
-        return q;
+        return depth;
     }
 }
