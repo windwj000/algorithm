@@ -2,27 +2,30 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public ArrayList<ArrayList<Integer>> Print(TreeNode pRoot) {
-        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
-        dfs(pRoot, res, 0);
-        return res;
-    }
-
-    private void dfs(TreeNode node, ArrayList<ArrayList<Integer>> res, int level) {
-        if (node == null) {
-            return;
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        Stack<TreeNode> stack = new Stack<>();
+        HashMap<TreeNode, TreeNode> map = new HashMap<>();
+        stack.push(root);
+        map.put(root, null);
+        while (!map.containsKey(p) || !map.containsKey(q)) {  //注意
+            TreeNode node = stack.pop();
+            if (node.left != null) {
+                map.put(node.left, node);
+                stack.push(node.left);
+            }
+            if (node.right != null) {
+                map.put(node.right, node);
+                stack.push(node.right);
+            }
         }
-        if (level == res.size()) {
-            ArrayList<Integer> newLevel = new ArrayList<>();
-            res.add(newLevel);
+        HashSet<TreeNode> set = new HashSet<>();
+        while (p != null) {
+            set.add(p);
+            p = map.get(p);
         }
-        ArrayList<Integer> tmp = res.get(level);
-        if (level % 2 == 0) {
-            tmp.add(node.val);
-        } else {
-            tmp.add(0, node.val);
+        while (!set.contains(q)) {
+            q = map.get(q);
         }
-        dfs(node.left, res, level + 1);
-        dfs(node.right, res, level + 1);
+        return q;
     }
 }
