@@ -2,26 +2,28 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public int TreeDepth(TreeNode root) {
-        if (root == null) {
-            return 0;
+    public double Power(double base, int exponent) {
+        if (exponent == 0) {
+            return 1;
         }
-        Queue<TreeNode> q = new LinkedList<>();
-        q.offer(root);
-        int depth = 0;
-        while (!q.isEmpty()) {
-            int size = q.size();
-            while (size-- > 0) {
-                TreeNode node = q.poll();
-                if (node.left != null) {
-                    q.offer(node.left);
-                }
-                if (node.right != null) {
-                    q.offer(node.right);
-                }
+        if (exponent == 1) {
+            return base;
+        }
+        double res = 1.0;
+        int n = exponent;
+        if (exponent < 0) {
+            if (base == 0) {
+                throw new RuntimeException("base can't be 0!");
             }
-            depth++;
+            n = -n;
         }
-        return depth;
+        while (n > 0) {
+            if ((n & 1) == 1) {
+                res *= base;
+            }
+            base *= base;
+            n >>= 1;
+        }
+        return exponent > 0 ? res : 1 / res;
     }
 }
