@@ -2,28 +2,36 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public double Power(double base, int exponent) {
-        if (exponent == 0) {
-            return 1;
+    public ArrayList<String> Permutation(String str) {
+        ArrayList<String> res = new ArrayList<>();
+        if (str == null || str.length() == 0) {
+            return res;
         }
-        if (exponent == 1) {
-            return base;
+        backtracking(str.toCharArray(), res, 0);
+        Collections.sort(res);
+        return res;
+    }
+
+    private void backtracking(char[] ca, ArrayList<String> res, int idx) {
+        if (idx == ca.length - 1) {
+            res.add(String.valueOf(ca));
+            return;
         }
-        double res = 1.0;
-        int n = exponent;
-        if (exponent < 0) {
-            if (base == 0) {
-                throw new RuntimeException("base can't be 0!");
+        HashSet<Character> hs = new HashSet<>();
+        for (int i = idx; i < ca.length; i++) {
+            if (hs.contains(ca[i])) {  //注意
+                continue;
             }
-            n = -n;
+            hs.add(ca[i]);
+            swap(ca, i, idx);
+            backtracking(ca, res, idx + 1);
+            swap(ca, i, idx);
         }
-        while (n > 0) {
-            if ((n & 1) == 1) {
-                res *= base;
-            }
-            base *= base;
-            n >>= 1;
-        }
-        return exponent > 0 ? res : 1 / res;
+    }
+
+    private void swap(char[] ca, int i, int j) {
+        char tmp = ca[i];
+        ca[i] = ca[j];
+        ca[j] = tmp;
     }
 }
