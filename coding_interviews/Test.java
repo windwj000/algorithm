@@ -2,36 +2,44 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public ArrayList<String> Permutation(String str) {
-        ArrayList<String> res = new ArrayList<>();
-        if (str == null || str.length() == 0) {
-            return res;
-        }
-        backtracking(str.toCharArray(), res, 0);
-        Collections.sort(res);
-        return res;
+    private int cnt = 0;
+
+    public int InversePairs(int[] array) {
+        mergeSort(array, 0, array.length - 1);
+        return cnt;
     }
 
-    private void backtracking(char[] ca, ArrayList<String> res, int idx) {
-        if (idx == ca.length - 1) {
-            res.add(String.valueOf(ca));
-            return;
+    private void mergeSort(int[] array, int low, int high) {
+        if (low < high) {
+            int mid = low + (high - low) / 2;
+            mergeSort(array, low, mid);
+            mergeSort(array, mid + 1, high);
+            merge(array, low, mid, high);
         }
-        HashSet<Character> hs = new HashSet<>();
-        for (int i = idx; i < ca.length; i++) {
-            if (hs.contains(ca[i])) {  //注意
-                continue;
+    }
+
+    private void merge(int[] array, int low, int mid, int high) {
+        int i = low;
+        int j = mid + 1;
+        int k = 0;
+        int[] tmp = new int[high - low + 1];
+        while (i <= mid && j <= high) {
+            if (array[i] <= array[j]) {
+                tmp[k++] = array[i++];
+            } else {
+                tmp[k++] = array[j++];
+                cnt += mid - i + 1;
+                cnt %= 1000000007;
             }
-            hs.add(ca[i]);
-            swap(ca, i, idx);
-            backtracking(ca, res, idx + 1);
-            swap(ca, i, idx);
         }
-    }
-
-    private void swap(char[] ca, int i, int j) {
-        char tmp = ca[i];
-        ca[i] = ca[j];
-        ca[j] = tmp;
+        while (i <= mid) {
+            tmp[k++] = array[i++];
+        }
+        while (j <= high) {
+            tmp[k++] = array[j++];
+        }
+        for (k = 0; k < tmp.length; k++) {
+            array[k + low] = tmp[k];
+        }
     }
 }
