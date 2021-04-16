@@ -2,44 +2,25 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    private int cnt = 0;
-
-    public int InversePairs(int[] array) {
-        mergeSort(array, 0, array.length - 1);
-        return cnt;
-    }
-
-    private void mergeSort(int[] array, int low, int high) {
-        if (low < high) {
-            int mid = low + (high - low) / 2;
-            mergeSort(array, low, mid);
-            mergeSort(array, mid + 1, high);
-            merge(array, low, mid, high);
+    public int[] multiply(int[] A) {
+        int len = A.length;
+        if (A == null || len == 0) {
+            return A;
         }
-    }
-
-    private void merge(int[] array, int low, int mid, int high) {
-        int i = low;
-        int j = mid + 1;
-        int k = 0;
-        int[] tmp = new int[high - low + 1];
-        while (i <= mid && j <= high) {
-            if (array[i] <= array[j]) {
-                tmp[k++] = array[i++];
-            } else {
-                tmp[k++] = array[j++];
-                cnt += mid - i + 1;
-                cnt %= 1000000007;
-            }
+        int[] left = new int[len];
+        int[] right = new int[len];
+        left[0] = 1;
+        right[len - 1] = 1;
+        for (int i = 1; i < len; i++) {
+            left[i] = left[i - 1] * A[i - 1];
         }
-        while (i <= mid) {
-            tmp[k++] = array[i++];
+        for (int i = len - 2; i >= 0; i--) {    //注意，从 len-2 开始
+            right[i] = right[i + 1] * A[i + 1];
         }
-        while (j <= high) {
-            tmp[k++] = array[j++];
+        int[] res = new int[len];
+        for (int i = 0; i < len; i++) {
+            res[i] = left[i] * right[i];
         }
-        for (k = 0; k < tmp.length; k++) {
-            array[k + low] = tmp[k];
-        }
+        return res;
     }
 }
