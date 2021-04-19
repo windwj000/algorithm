@@ -2,25 +2,42 @@ import javax.swing.tree.TreeNode;
 import java.util.*;
 
 public class Test {
-    public int[] multiply(int[] A) {
-        int len = A.length;
-        if (A == null || len == 0) {
-            return A;
+    public int StrToInt(String str) {
+        int len = str.length();
+        if (str == null || len == 0) {
+            return 0;
         }
-        int[] left = new int[len];
-        int[] right = new int[len];
-        left[0] = 1;
-        right[len - 1] = 1;
-        for (int i = 1; i < len; i++) {
-            left[i] = left[i - 1] * A[i - 1];
+        int res = 0;
+        boolean negative = false;
+        int limit = -Integer.MAX_VALUE;  //注意
+        int i = 0;
+        char firstChar = str.charAt(0);
+        if (firstChar < '0') {
+            if (firstChar == '-') {
+                negative = true;
+                limit = Integer.MIN_VALUE;  //注意
+            } else if (firstChar != '+') {
+                return 0;
+            }
+            if (len == 1) {
+                return 0;
+            }
+            i++;
         }
-        for (int i = len - 2; i >= 0; i--) {    //注意，从 len-2 开始
-            right[i] = right[i + 1] * A[i + 1];
+        while (i < len) {
+            int digit = str.charAt(i++) - '0';
+            if (digit < 0 || digit > 9) {
+                return 0;
+            }
+            if (res < limit / 10) {  //注意
+                return 0;
+            }
+            res *= 10;
+            if (res < limit + digit) {  //注意
+                return 0;
+            }
+            res -= digit;  //注意
         }
-        int[] res = new int[len];
-        for (int i = 0; i < len; i++) {
-            res[i] = left[i] * right[i];
-        }
-        return res;
+        return negative ? res : -res;
     }
 }
