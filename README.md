@@ -8,4 +8,4 @@
 
 #### 有各种问题或者有更好的解法希望各位能提 Issues 给我，我会尽力解决。
 
-<img src="https://github.com/windwj000/algorithm/blob/master/pics/shark.jpg" width="75%">
+<img src="https://github.com/windwj000/algorithm/blob/master/pics/shark.jpg" width="40%">
